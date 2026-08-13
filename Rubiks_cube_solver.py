@@ -1,7 +1,7 @@
 from Rubiks_cube_solver_data import *
 
 def rotate(pos, rn):
-    l = list(pos)
+    l = list(pos)    
     lb = list(pos)
     
     if rn == "R'":
