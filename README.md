@@ -2,4 +2,5 @@
 
 ## Overview
 
-My first solver
+My first file on GitHub
+When this is finished it has to solve a rubik's cube.
