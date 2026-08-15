@@ -1,4 +1,5 @@
 from Rubiks_cube_solver_data import *
+#import random
 
 def rotate(pos, rn):
     l = list(pos)    
@@ -92,16 +93,25 @@ print("""
 
 pos = 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'
 #print(len(pos))
-rn = "R2"
-pos = rotate(pos, "L'")
-pos = rotate(pos, "U")
-pos = rotate(pos, "R")
-pos = rotate(pos, "D2")
-pos = rotate(pos, "R'")
-#pos = rotate(pos, "B2")
-#for x in range(6):
-#    pos = rotate(pos, "L2")
-#    pos = rotate(pos, "D2")
-#    pos = rotate(pos, "L")
-#    pos = rotate(pos, "D")
+#rn = "R2"
+
+pm = ["F", "F'", "F2", "R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "B", "B'", "B2"]
+zetten = []
+
+wla = {}
+
+for s in range(20):
+    wla[f'lag{s}'] = []
+
+while True:
+    for a in range(20):
+#        for d in pm:
+            d = len(wla[f'lag{a}']) + 1
+            rotate(pos, pm[d])
+            wla[f'lag{a}'].append(pm[d])
+            zetten.append(pm[d])
+    break
+
+
 print(pos)
+print(wla)
