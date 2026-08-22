@@ -1,5 +1,4 @@
 from Rubiks_cube_solver_data import *
-#import random
 
 def rotate(pos, rn):
     l = list(pos)    
@@ -91,9 +90,16 @@ print("""
                | 51 | 52 | 53 |
                ----------------""")
 
-pos = 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'
-#print(len(pos))
-#rn = "R2"
+pos = 'YGYWWBRBGBRBYRRBWYWRRYBGROGWYROOOYBWGROYGGGGOBWOBYOWWO'#input('Wat is de positie van de rubiks cube? ')#'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'#'YGYWWBRBGBRBYRRBWYWRRYBGROGWYROOOYBWGROYGGGGOBWOBYOWWO'
+
+
+
+rz = {"F": "F'", "F'": "F", "F2": "F2",
+      "R": "R'", "R'": "R", "R2": "R2",
+      "U": "U'", "U'": "U", "U2": "U2",
+      "D": "D'", "D'": "D", "D2": "D2",
+      "B": "B'", "B'": "B", "B2": "B2",
+      "L": "L'", "L'": "L", "L2": "L2",}
 
 pm = ["F", "F'", "F2", "R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "B", "B'", "B2"]
 zetten = []
@@ -103,15 +109,40 @@ wla = {}
 for s in range(20):
     wla[f'lag{s}'] = []
 
-while True:
-    for a in range(20):
-#        for d in pm:
-            d = len(wla[f'lag{a}']) + 1
-            rotate(pos, pm[d])
-            wla[f'lag{a}'].append(pm[d])
-            zetten.append(pm[d])
-    break
+a = 0
 
+while pos != 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY':
+    try:
+        if a == 20 or len(wla[f'lag{a}']) == len(pm):
+            a -= 1
+            zetten.pop()
+            pos = rotate(pos, rz[nd])
+            if len(wla[f'lag{a}']) == len(pm):
+                wla[f'lag{a}'] = []
+                a -= 1
+                zetten.pop()
+    
+        d = len(wla[f'lag{a}'])
 
-print(pos)
-print(wla)
+        nd = pm[d]
+    
+#        print()
+#        print(a)
+#        print(nd)
+    
+        pos = rotate(pos, nd)
+        wla[f'lag{a}'].append(nd)
+        zetten.append(nd)
+    
+        a += 1
+
+    except IndexError:
+        a -= 1
+        print('IndexError')
+    except KeyError:
+        a += 1
+        wla[f'lag{a}'] = []
+        print('KeyError')
+
+print()
+print(zetten)
