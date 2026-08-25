@@ -1,4 +1,4 @@
-from Rubiks_cube_solver_data import *
+from Rubiks_cube_data import *
 
 def rotate(pos, rn):
     l = list(pos)    
@@ -90,8 +90,8 @@ print("""
                | 51 | 52 | 53 |
                ----------------""")
 
-pos = 'YGYWWBRBGBRBYRRBWYWRRYBGROGWYROOOYBWGROYGGGGOBWOBYOWWO'#input('Wat is de positie van de rubiks cube? ')#'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'#'YGYWWBRBGBRBYRRBWYWRRYBGROGWYROOOYBWGROYGGGGOBWOBYOWWO'
-
+pos = ''#input('Wat is de positie van de rubiks cube? ')#'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'#'YGYWWBRBGBRBYRRBWYWRRYBGROGWYROOOYBWGROYGGGGOBWOBYOWWO'
+origpos = 'WWWWWWRRGRRYRRWRRRBBWOBBWBBOBBOOOOOOOGGGGGGGGBYYYYYYYY'
 
 
 rz = {"F": "F'", "F'": "F", "F2": "F2",
@@ -110,39 +110,63 @@ for s in range(20):
     wla[f'lag{s}'] = []
 
 a = 0
+lz = ''
+
 
 while pos != 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY':
     try:
-        if a == 20 or len(wla[f'lag{a}']) == len(pm):
-            a -= 1
-            zetten.pop()
-            pos = rotate(pos, rz[nd])
-            if len(wla[f'lag{a}']) == len(pm):
-                wla[f'lag{a}'] = []
+        pos = origpos
+
+        for d in range(a):
+            if lz != wla[f'lag{d}'][-1] and d == a - 1:
                 a -= 1
-                zetten.pop()
-    
+                break
+            else:
+                pos = rotate(pos, wla[f'lag{d}'][-1])
+#                zetten.append(wla[f'lag{d}'][-1])
+        
         d = len(wla[f'lag{a}'])
 
         nd = pm[d]
-    
-#        print()
-#        print(a)
-#        print(nd)
+
+        if rz[nd] == lz:
+            wla[f'lag{a}'].append(nd)
+            continue
+
+        lz = pm[d]
     
         pos = rotate(pos, nd)
         wla[f'lag{a}'].append(nd)
-        zetten.append(nd)
+#        zetten.append(nd)
+
+        if len(zetten) == 20:
+            wla[f'lag{a}'].pop()
+#            zetten.pop()
+            a -= 2
     
         a += 1
 
+        for h in wla:
+            if len(wla[h]) == 18:
+                wla[h] = []
+
+
     except IndexError:
+#        print('IndexError')
         a -= 1
-        print('IndexError')
-    except KeyError:
-        a += 1
-        wla[f'lag{a}'] = []
-        print('KeyError')
+#        print('IndexError')
+#    except KeyError:
+#        print('keyerr')
+#        a += 3
+#        pass
+#        a += 2
+#        print(a)
+#        wla[f'lag{a}'] = []
+#        print('KeyError')
+
+zetten = []
+for d in range(a):
+    zetten.append(wla[f'lag{d}'][-1])
 
 print()
 print(zetten)
