@@ -1,71 +1,52 @@
-from Rubiks_cube_data import *
+from Rubiks_cube_data import *#   This is my other code named Rubiks_cube_data.py
 
-def rotate(pos, rn):
+wh = {"R'": [rtl, rt], "R": [rml, rm], "R2": [r2l, r2],
+      "U'": [utl, ut], "U": [uml, um], "U2": [u2l, u2],
+      "F'": [ftl, ft], "F": [fml, fm], "F2": [f2l, f2],
+      "L'": [ltl, lt], "L": [lml, lm], "L2": [l2l, l2],
+      "B'": [btl, bt], "B": [bml, bm], "B2": [b2l, b2],
+      "D'": [dtl, dt], "D": [dml, dm], "D2": [d2l, d2]}
+
+ch = {5: 'W', 13: 'R', 22: 'B', 31: 'O', 40: 'G', 49: 'Y'}
+
+def rotate(pos, rn):#    Rotates a move on rubiks cube
     l = list(pos)    
     lb = list(pos)
-    
-    if rn == "R'":
-        for f in rtl:
-            l[f] = lb[rt[f]]
-    elif rn == "R":
-        for f in rml:
-            l[f] = lb[rm[f]]
-    elif rn == "R2":
-        for f in r2l:
-            l[f] = lb[r2[f]]
 
-    elif rn == "U":
-        for f in uml:
-            l[f] = lb[um[f]]
-    elif rn == "U'":
-        for f in utl:
-            l[f] = lb[ut[f]]
-    elif rn == "U2":
-        for f in u2l:
-            l[f] = lb[u2[f]]
+    for f in wh[rn][0]:
+        l[f] = lb[wh[rn][1][f]]
 
-    elif rn == "F":
-        for f in fml:
-            l[f] = lb[fm[f]]
-    elif rn == "F'":
-        for f in ftl:
-            l[f] = lb[ft[f]]
-    elif rn == "F2":
-        for f in f2l:
-            l[f] = lb[f2[f]]
-
-    elif rn == "L":
-        for f in lml:
-            l[f] = lb[lm[f]]
-    elif rn == "L'":
-        for f in ltl:
-            l[f] = lb[lt[f]]
-    elif rn == "L2":
-        for f in l2l:
-            l[f] = lb[l2[f]]
-
-    elif rn == "B":
-        for f in bml:
-            l[f] = lb[bm[f]]
-    elif rn == "B'":
-        for f in btl:
-            l[f] = lb[bt[f]]
-    elif rn == "B2":
-        for f in b2l:
-            l[f] = lb[b2[f]]
-
-    elif rn == "D":
-        for f in dml:
-            l[f] = lb[dm[f]]
-    elif rn == "D'":
-        for f in dtl:
-            l[f] = lb[dt[f]]
-    elif rn == "D2":
-        for f in d2l:
-            l[f] = lb[d2[f]]
-    
     npos = ''.join(l)
     return npos
+
+ch = {5: 'W', 13: 'R', 22: 'B', 31: 'O', 40: 'G', 49: 'Y'}
+
+def check(pos):#    Checks if the rubiks cube is filled out correctly.
+    tof = True
+
+    tellen = []
+    tellen.append(pos.count('W'))
+    tellen.append(pos.count('R'))
+    tellen.append(pos.count('B'))
+    tellen.append(pos.count('O'))
+    tellen.append(pos.count('G'))
+    tellen.append(pos.count('Y'))
+
+    for w in ch:
+        if pos[w] != ch[w]:
+            print('Niet juist ingevuld: Center(s) niet juist.')
+            tof = False
+            break
+    if len(pos) != 54:
+        print('Niet juist ingevuld: Foute hoeveelheid vakjes.')
+        tof = False
+    if not len(set(tellen)) == 1:
+        print('Niet juist ingevuld: Foute hoeveelheid van een bepaalde kleur.')
+        tof = False
+    
+    if not tof:
+        origpos = 'WWWWWWRRGRRYRRWRRRBBWOBBWBBOBBOOOOOOOGGGGGGGGBYYYYYYYY'.upper()
+        check(origpos)
 
 print("""
                ----------------
@@ -90,8 +71,10 @@ print("""
                | 51 | 52 | 53 |
                ----------------""")
 
-pos = ''#input('Wat is de positie van de rubiks cube? ')#'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'#'YGYWWBRBGBRBYRRBWYWRRYBGROGWYROOOYBWGROYGGGGOBWOBYOWWO'
-origpos = 'WWWWWWRRGRRYRRWRRRBBWOBBWBBOBBOOOOOOOGGGGGGGGBYYYYYYYY'
+pos = ''#input('Wat is de positie van de rubiks cube? ')#'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY'
+origpos = 'WWWWWWRRGRRYRRWRRRBBWOBBWBBOBBOOOOOOOGGGGGGGGBYYYYYYYY'.upper()# Has to be an input later.
+
+check(origpos)
 
 
 rz = {"F": "F'", "F'": "F", "F2": "F2",
@@ -123,25 +106,20 @@ while pos != 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY':
                 break
             else:
                 pos = rotate(pos, wla[f'lag{d}'][-1])
-#                zetten.append(wla[f'lag{d}'][-1])
+
+#        print(wla)
+#        print(a)
         
         d = len(wla[f'lag{a}'])
 
         nd = pm[d]
-
-        if rz[nd] == lz:
-            wla[f'lag{a}'].append(nd)
-            continue
-
         lz = pm[d]
     
         pos = rotate(pos, nd)
         wla[f'lag{a}'].append(nd)
-#        zetten.append(nd)
 
-        if len(zetten) == 20:
+        if a == 19:
             wla[f'lag{a}'].pop()
-#            zetten.pop()
             a -= 2
     
         a += 1
@@ -149,20 +127,15 @@ while pos != 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY':
         for h in wla:
             if len(wla[h]) == 18:
                 wla[h] = []
+                a -= 1
 
 
-    except IndexError:
-#        print('IndexError')
-        a -= 1
-#        print('IndexError')
-#    except KeyError:
-#        print('keyerr')
-#        a += 3
-#        pass
-#        a += 2
-#        print(a)
-#        wla[f'lag{a}'] = []
-#        print('KeyError')
+#    except IndexError:
+#        print('in')
+#        if a != 0:
+#            a -= 1
+    finally:
+        pass
 
 zetten = []
 for d in range(a):
@@ -170,3 +143,6 @@ for d in range(a):
 
 print()
 print(zetten)
+
+
+
