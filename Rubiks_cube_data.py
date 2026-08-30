@@ -118,3 +118,48 @@ d2l = list(d2.keys())
 
 
 
+wh = {"R'": [rtl, rt], "R": [rml, rm], "R2": [r2l, r2],
+      "U'": [utl, ut], "U": [uml, um], "U2": [u2l, u2],
+      "F'": [ftl, ft], "F": [fml, fm], "F2": [f2l, f2],
+      "L'": [ltl, lt], "L": [lml, lm], "L2": [l2l, l2],
+      "B'": [btl, bt], "B": [bml, bm], "B2": [b2l, b2],
+      "D'": [dtl, dt], "D": [dml, dm], "D2": [d2l, d2]}
+
+ch = {5: 'W', 13: 'R', 22: 'B', 31: 'O', 40: 'G', 49: 'Y'}
+
+def rotate(pos, rn):#    Rotates a move on rubiks cube
+    l = list(pos)    
+    lb = list(pos)
+
+    for f in wh[rn][0]:
+        l[f] = lb[wh[rn][1][f]]
+
+    npos = ''.join(l)
+    return npos
+
+def check(pos):#    Checks if the rubiks cube is filled out correctly.
+    tof = True
+
+    tellen = []
+    tellen.append(pos.count('W'))
+    tellen.append(pos.count('R'))
+    tellen.append(pos.count('B'))
+    tellen.append(pos.count('O'))
+    tellen.append(pos.count('G'))
+    tellen.append(pos.count('Y'))
+
+    for w in ch:
+        if pos[w] != ch[w]:
+            print('Niet juist ingevuld: Center(s) niet juist.')
+            tof = False
+            break
+    if len(pos) != 54:
+        print('Niet juist ingevuld: Foute hoeveelheid vakjes.')
+        tof = False
+    if not len(set(tellen)) == 1:
+        print('Niet juist ingevuld: Foute hoeveelheid van een bepaalde kleur.')
+        tof = False
+    
+    if not tof:
+        origpos = 'WWWWWWRRGRRYRRWRRRBBWOBBWBBOBBOOOOOOOGGGGGGGGBYYYYYYYY'.upper()
+        check(origpos)
