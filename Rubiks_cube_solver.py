@@ -59,13 +59,23 @@ while pos != 'WWWWWWWWWRRRRRRRRRBBBBBBBBBOOOOOOOOOGGGGGGGGGYYYYYYYYY':
             pos = rotate(pos, wla[f'lag{d}'][-1])
 
 #    print(wla)
+#    print()
+
 #    print(a)
         
     d = len(wla[f'lag{a}'])
 
     nd = pm[d]
-    lz = pm[d]
-    
+
+    if lz != '' and nd == rz[lz]:
+        wla[f'lag{a}'].append(nd)
+        lz = next((v[-1] for v in reversed(wla.values()) if isinstance(v, list) and v), '')
+        continue
+    lz = next((v[-1] for v in reversed(wla.values()) if isinstance(v, list) and v), '')
+
+    print(wla)
+    print()
+            
     pos = rotate(pos, nd)
     wla[f'lag{a}'].append(nd)
 
